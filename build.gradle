@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'org.spongepowered.plugin' version '0.8.1'
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
+}
+
+repositories {
+    maven {
+        name = 'sponge'
+        url = 'http://repo.spongepowered.org/maven'
+    }
+    maven { url = 'https://jitpack.io' }
+    maven {
+        name 'drnaylor-minecraft'
+        url 'http://repo.drnaylor.co.uk/artifactory/list/minecraft'
+    }
+    maven {
+        name 'drnaylor'
+        url 'http://repo.drnaylor.co.uk/artifactory/list/quickstart'
+    }
+    mavenCentral()
+    jcenter()
+}
+
+ext.teslaversion = '1.1.5'
+group = "pokepalooza.punishementlogger"
+version = pluginVersion
+
+dependencies {
+    compileOnly 'org.spongepowered:spongeapi:7.0.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.6'
+    compile 'net.dv8tion:JDA:3.8.0_433'
+    compile "com.github.SimonFlash.TeslaPowered:TeslaLibs:v${teslaversion}"
+    compile 'io.github.nucleuspowered:nucleus-api:1.4.7-SNAPSHOT-S7.0'
+}
+
+shadowJar {
+    relocate 'org.apache.commons', "xyz.pokepalooza.relocate.org.apache.commons"
+    relocate 'com.fasterxml', "xyz.pokepalooza.relocate.com.fasterxml"
+    relocate 'org.apache.http', 'xyz.pokepalooza.relocate.org.apache.http'
+    relocate 'net.dv8tion', "xyz.pokepalooza.relocate.net.dv8tion"
+    relocate 'com.mcsimonflash.sponge.teslalibs', "xyz.pokepalooza.relocate.com.mcsimonflash.sponge.teslalibs"
+}
+
+build.dependsOn(shadowJar)
+sponge.plugin.id = pluginId
